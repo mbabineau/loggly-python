@@ -1,0 +1,98 @@
+#!/usr/bin/env python
+
+# Author: Mike Babineau <mikeb@ea2d.com>
+# Copyright 2011 Electronic Arts Inc.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+import os, sys
+import optparse
+
+import loggly
+
+
+class Usage(Exception):
+  def __init__(self, msg):
+      self.msg = msg
+
+
+def main(argv=None):
+    parser = optparse.OptionParser()
+    parser.add_option("-d", "--device-ip", dest="device_ip", help='(required) device ip')
+    parser.add_option("-i", "--input-name", dest="input_name", help='(required) input name')
+    parser.add_option("-U", "--username", dest="username", help='loggly username')
+    parser.add_option("-P", "--password", dest="password", help='loggly password')
+    parser.add_option("-D", "--domain", dest="domain", help='customer-specific loggly domain (e.g., "acme.loggly.com")')
+    (options, args) = parser.parse_args()
+    
+    # Arg validation
+    try:
+        if options.input_name:
+            input_name = options.input_name
+        else:
+            raise Usage("No input name specified")
+        
+        if options.device_ip:
+            device_ip = options.device_ip
+        else:
+            raise Usage("No device IP specified")
+        
+        if options.username:
+            username = options.username
+        else:
+            if 'LOGGLY_USERNAME' in os.environ:
+                username = os.environ['LOGGLY_USERNAME']
+            else:
+                raise Usage("No username passed, and LOGGLY_USERNAME environment variable not set")
+
+        if options.password:
+            password = options.password
+        else:
+            if 'LOGGLY_PASSWORD' in os.environ:
+                password = os.environ['LOGGLY_PASSWORD']
+            else:
+                raise Usage("No password passed, and LOGGLY_PASSWORD environment variable not set")
+        
+        if options.domain:
+            domain = options.domain
+        else:
+            if 'LOGGLY_DOMAIN' in os.environ:
+                domain = os.environ['LOGGLY_DOMAIN']
+            else:
+                raise Usage("No domain passed, and LOGGLY_DOMAIN environment variable not set")
+                
+    except Usage, err:
+        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print >> sys.stderr, "\t for help use --help"
+        return 2
+    
+    c = loggly.LogglyConnection(username, password, domain)
+    
+    device = loggly.LogglyDevice({'ip': device_ip})
+        
+    inputs = c.get_all_inputs([input_name])
+    if len(inputs) == 0:
+        print "Error: Input \"%s\" not found" % input_name
+        return 1
+    else:
+        input = inputs[0]
+
+    print "Adding device \"%s\" to input \"%s\"" % (device.ip, input.name)
+    response = c.add_device_to_input(device, input)
+    
+    return response
+
+
+if __name__ == "__main__":
+	sys.exit(main())
