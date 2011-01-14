@@ -91,7 +91,8 @@ def main(argv=None):
     print "Adding device \"%s\" to input \"%s\"" % (device.ip, input.name)
     response = c.add_device_to_input(device, input)
     
-    return response
+    print response
+    return 0
 
 
 if __name__ == "__main__":

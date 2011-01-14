@@ -99,9 +99,8 @@ def main(argv=None):
         print "Input already exists"
         return 0
     else:
-        input = c.create_input(name, service, description)
-    
-    return input
+        print c.create_input(name, service, description)
+        return 0
 
 
 if __name__ == "__main__":
