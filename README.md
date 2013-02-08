@@ -32,7 +32,7 @@ Or install from PyPI:
 
 Library Usage
 --------------------
-See example [scripts](http://github.com/EA2D/loggly-python/tree/master/scripts), included in `scripts/`
+See example [scripts](http://github.com/mbabineau/loggly-python/tree/master/scripts), included in `scripts/`
 
 
 Script Usage
