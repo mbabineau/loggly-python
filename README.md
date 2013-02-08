@@ -13,9 +13,6 @@ Currently, the library supports:
 * Deleting devices
 * Getting one or more devices
 
-Love writing code?  [EA2D](http://ea2d.com) is [hiring](http://ea2d.com/jobs/)!
-
-
 Requirements
 --------------------
 - Loggly account
@@ -71,7 +68,7 @@ Delete an input:
 
 Contributing
 --------------------
-Use GitHub's standard fork/commit/pull-request cycle.  If you have any questions, email <ops@ea2d.com>.
+Use GitHub's standard fork/commit/pull-request cycle.  If you have any questions, email <michael.babineau@gmail.com>.
 
 
 License
