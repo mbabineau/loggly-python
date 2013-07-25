@@ -19,7 +19,8 @@ import sys
 import urllib
 import urllib2
 
-import simplejson
+try: import simplejson as json
+except ImportError: import json
 
 from loggly.device import LogglyDevice
 from loggly.input import LogglyInput
