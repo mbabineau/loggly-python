@@ -16,7 +16,7 @@ Currently, the library supports:
 Requirements
 --------------------
 - Loggly account
-- simplejson Python module
+- simplejson Python module (if json module not available)
 
 
 Installation
