@@ -1,6 +1,6 @@
 loggly-python
 =====================
-Python library and scripts for managing [Loggly](http://www.loggly.com) inputs and devices
+Python library and scripts for managing [Loggly](http://www.loggly.com) inputs and devices. Check out Loggly's [Python logging documentation](https://www.loggly.com/docs/python-syslog/) for more. 
 
 Currently, the library supports:
 
